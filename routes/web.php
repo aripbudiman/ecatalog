@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -22,6 +23,7 @@ Route::get('/',[DashboardController::class,'index'])->name('dashboard.index')->m
 
 Route::middleware('auth')->group(function () {
     Route::resource('customer',CustomerController::class);
+    Route::resource('category',CategoryController::class);
 });
 
 Route::get('/dashboard', function () {
