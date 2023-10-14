@@ -52,7 +52,7 @@ const Table = ({ customers }) => {
                     onChange={(e) => setKeyword(e.target.value)}
                 />
             </div>
-            <table className="table bg-white mt-2">
+            <table className="table table-xs bg-white mt-2">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -75,7 +75,7 @@ const Table = ({ customers }) => {
                                             .getElementById("modalEditCustomer")
                                             .showModal();
                                     }}
-                                    className="btn btn-sm btn-success"
+                                    className="btn btn-xs btn-success"
                                 >
                                     Edit
                                 </button>
