@@ -15,7 +15,10 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Menu/Index');
+        $menu=Product::with('category')->latest()->get();
+        return Inertia::render('Menu/Index',[
+            'menu' => $menu
+        ]);
     }
 
     /**
@@ -50,7 +53,7 @@ class MenuController extends Controller
             'image' => $path,
             'description' => $request->description
         ]);
-        return back()->with('message', 'Category created successfully');
+        return back()->with('message', 'Menu created successfully');
     }
 
     /**

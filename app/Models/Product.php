@@ -13,8 +13,8 @@ class Product extends Model
     protected $guarded=[];
     protected $table = 'products';
 
-    public function categories(){
-        return $this->belongsToMany(Category::class);
+    public function category(){
+        return $this->belongsTo(Categories::class,'category_id','id');
     }
 
     protected function image(): Attribute

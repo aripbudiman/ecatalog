@@ -4,12 +4,12 @@ import App from "@/Layouts/App";
 import Navbar from "@/DaisyUi/Navbar";
 import Input from "@/DaisyUi/Input";
 import { Icon } from "@iconify/react";
-import AlertSuccess from "@/DaisyUi/AlertSuccess";
-const Create = ({ categories, message }) => {
+import Swal from "sweetalert2";
+const Create = ({ categories }) => {
     const [previewImage, setPreviewImage] = useState(null);
     const [errors, setErrors] = useState({});
     const imageRef = React.useRef();
-    const { data, setData, post, processing } = useForm({
+    const { data, setData } = useForm({
         name: "",
         category_id: "",
         description: "",
@@ -44,6 +44,13 @@ const Create = ({ categories, message }) => {
                     description: "",
                     image: null,
                 });
+                Swal.fire({
+                    position: "top-center",
+                    icon: "success",
+                    title: "Menu has been created",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
             },
             onError: (errors) => {
                 setErrors(errors);
@@ -56,11 +63,6 @@ const Create = ({ categories, message }) => {
             <Navbar>
                 <h1 className="text-2xl font-semibold">Add New Menu</h1>
             </Navbar>
-            {message && (
-                <div className="w-full xl:w-2/3 px-3">
-                    <AlertSuccess />
-                </div>
-            )}
             <form
                 onSubmit={submit}
                 encType="multipart/form-data"
