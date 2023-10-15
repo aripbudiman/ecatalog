@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Models\Categories;
 use App\Models\Product;
 use Illuminate\Support\Str;
+use App\Models\SizeProduct;
 
 class MenuController extends Controller
 {
@@ -15,7 +16,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menu=Product::with('category')->latest()->get();
+        $menu=Product::with('category','size')->latest()->get();
         return Inertia::render('Menu/Index',[
             'menu' => $menu
         ]);
@@ -86,5 +87,26 @@ class MenuController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function size(){
+        $menu=Product::with('category','size')->latest()->get();
+        return Inertia::render('Menu/Size',[
+            'menu' => $menu
+        ]);
+    }
+
+    public function sizeStore(Request $request){
+        $productId=$request->product_id;
+        $items=$request->items;
+        foreach($items as $item){
+            SizeProduct::create([
+                'product_id' => $productId,
+                'size' => $item['size'],
+                'price' => $item['price']
+            ]);
+        }
+        return back()->with('message', 'Size created successfully');
     }
 }

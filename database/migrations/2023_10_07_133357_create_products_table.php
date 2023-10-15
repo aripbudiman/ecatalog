@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories');
             $table->text('description')->nullable(true);
             $table->text('image')->nullable(true);
+            $table->enum('status',['in_stock','sold_out'])->default('in_stock');
             $table->timestamps();
         });
     }

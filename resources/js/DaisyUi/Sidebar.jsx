@@ -82,7 +82,7 @@ const Sidebar = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/menu/create"
+                                    href="/size"
                                     className="hover:text-sky-300"
                                 >
                                     Set Size Harga
