@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('size_products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('category_id')->constrained('categories');
-            $table->text('description')->nullable(true);
-            $table->text('image')->nullable(true);
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->enum('size', ['S', 'M', 'L', 'XL', 'XXL']);
+            $table->decimal('price', 8, 0);
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('size_products');
     }
 };

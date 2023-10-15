@@ -25,7 +25,10 @@ const Sidebar = () => {
                     </Link>
                 </li>
                 <li className="text-lg text-white">
-                    <Link className="hover:bg-sky-300/50 hover:text-sky-300">
+                    <Link
+                        href="/menu"
+                        className="hover:bg-sky-300/50 hover:text-sky-300"
+                    >
                         <Icon icon="ic:outline-inventory-2" />
                         Menu
                     </Link>
@@ -70,9 +73,20 @@ const Sidebar = () => {
                                 </Link>
                             </li>
                             <li>
-                                <a className="hover:text-sky-300">
-                                    level 2 item 2
-                                </a>
+                                <Link
+                                    href="/menu/create"
+                                    className="hover:text-sky-300"
+                                >
+                                    Add New Menu
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/menu/create"
+                                    className="hover:text-sky-300"
+                                >
+                                    Set Size Harga
+                                </Link>
                             </li>
                         </ul>
                     </details>
