@@ -3,21 +3,22 @@ import App from "@/Layouts/App";
 import ModalAddCustomer from "./ModalAddCustomer";
 import ModalEditCustomer from "./ModalEditCustomer";
 import Pagination from "@/DaisyUi/Pagination";
+import Navbar from "@/DaisyUi/Navbar";
 const Index = (props) => {
     console.log(props);
     return (
         <App title="Customers">
-            <div className="p-3">
+            <Navbar>
                 <button
                     onClick={() =>
                         document.getElementById("modalAddCustomer").showModal()
                     }
-                    className="btn btn-outline btn-primary"
+                    className="btn btn-sm btn-outline btn-primary"
                 >
                     Add New Customer
                 </button>
-                <ModalAddCustomer />
-            </div>
+            </Navbar>
+            <ModalAddCustomer />
             <div className="overflow-x-auto mb-10">
                 <Table customers={props.customers.data} />
                 <Pagination

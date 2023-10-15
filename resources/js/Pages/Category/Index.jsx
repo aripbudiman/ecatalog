@@ -1,6 +1,7 @@
 import App from "@/Layouts/App";
 import React from "react";
 import { useForm } from "@inertiajs/react";
+import Navbar from "@/DaisyUi/Navbar";
 const Index = ({ categories }) => {
     const { data, setData, post, processing, errors } = useForm({
         name: "",
@@ -11,10 +12,14 @@ const Index = ({ categories }) => {
             return false;
         } else {
             post("/category");
+            setData({ name: "" });
         }
     };
     return (
         <App title="Category">
+            <Navbar>
+                <h1 className="text-3xl font-semibold">Category</h1>
+            </Navbar>
             <form onSubmit={submit} className="p-3 flex gap-x-3">
                 <input
                     type="text"
