@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('menu',MenuController::class);
     Route::get('size',[MenuController::class,'size'])->name('menu.size');
     Route::post('size',[MenuController::class,'sizeStore'])->name('size.store');
+    Route::post('order/create',[MenuController::class,'orderCreate'])->name('order.create');
 });
 
 Route::get('/dashboard', function () {

@@ -109,4 +109,9 @@ class MenuController extends Controller
         }
         return back()->with('message', 'Size created successfully');
     }
+
+    public function orderCreate(Request $request){
+        return back()->with('message', 'Order created successfully');
+
+    }
 }
