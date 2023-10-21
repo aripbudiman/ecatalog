@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import App from "@/Layouts/App";
 import Navbar from "@/DaisyUi/Navbar";
+import { Context } from "../MyContext";
+
 const Index = ({ menu }) => {
     return (
         <>
@@ -31,6 +33,9 @@ const Index = ({ menu }) => {
 };
 
 const Card = ({ data }) => {
+    const [price, setPrice] = useState(data.size[0].price);
+    const { addOrder } = useContext(Context);
+
     return (
         <div className="card w-full bg-base-100 shadow-md">
             <figure className="p-1.5">
@@ -41,11 +46,30 @@ const Card = ({ data }) => {
                 />
             </figure>
             <div className="card-body -my-8 -mb-5 -mx-4">
-                <h2 className="card-title">{data.name}</h2>
-                <p className="leading-5">{data.description}</p>
-                <div className="card-actions justify-between">
-                    <h2 className="text-lg font-semibold">Rp 4.000</h2>
-                    <button className="btn btn-xs btn-secondary">Order</button>
+                <h2 className="card-title text-lg">{data.name}</h2>
+                <div className="flex gap-x-1">
+                    {data.size.map((size) => (
+                        <button
+                            onClick={() => setPrice(size.price)}
+                            className="btn btn-xs btn-accent font-semibold"
+                            key={size.id}
+                        >
+                            {size.size}
+                        </button>
+                    ))}
+                </div>
+                <div className="card-actions flex-col justify-between">
+                    <h2 className="text-lg font-semibold">
+                        Rp {parseFloat(price).toLocaleString("id-ID")}
+                    </h2>
+                    <button
+                        onClick={() => {
+                            addOrder(data);
+                        }}
+                        className="btn btn-sm w-full btn-secondary"
+                    >
+                        Order
+                    </button>
                 </div>
             </div>
         </div>

@@ -17,6 +17,10 @@ class Product extends Model
         return $this->belongsTo(Categories::class,'category_id','id');
     }
 
+    public function size(){
+        return $this->hasMany(SizeProduct::class,'product_id','id');
+    }
+
     protected function image(): Attribute
     {
         return Attribute::make(

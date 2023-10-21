@@ -35,6 +35,15 @@ const Sidebar = () => {
                 </li>
                 <li className="text-lg text-white">
                     <Link
+                        href="/order"
+                        className="hover:bg-sky-300/50 hover:text-sky-300"
+                    >
+                        <Icon icon="icon-park-outline:order" />
+                        Orders
+                    </Link>
+                </li>
+                <li className="text-lg text-white">
+                    <Link
                         href="/customer"
                         className="hover:bg-sky-300/50 hover:text-sky-300"
                     >
@@ -82,7 +91,7 @@ const Sidebar = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/menu/create"
+                                    href="/size"
                                     className="hover:text-sky-300"
                                 >
                                     Set Size Harga
