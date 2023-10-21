@@ -1,20 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useContext } from "react";
 import App from "@/Layouts/App";
 import Navbar from "@/DaisyUi/Navbar";
-import { router } from "@inertiajs/react";
-const Index = ({ menu, ...props }) => {
-    const [order, setOrder] = useState();
-    const orderItems = JSON.parse(localStorage.getItem("order")) || [];
-    useEffect(() => {
-        if (orderItems.length > 0) {
-            const item = orderItems.length;
-            setOrder(item);
-        }
-    }, [orderItems]);
+import { Context } from "../MyContext";
+
+const Index = ({ menu }) => {
     return (
         <>
             <App title="Menu">
-                <Navbar order={order}>
+                <Navbar>
                     <div className="flex gap-x-3 items-center w-1/2 md:w-2/3">
                         <h1 className="text-2xl font-semibold">Menu</h1>
                         <input
@@ -41,6 +34,7 @@ const Index = ({ menu, ...props }) => {
 
 const Card = ({ data }) => {
     const [price, setPrice] = useState(data.size[0].price);
+    const { addOrder } = useContext(Context);
 
     return (
         <div className="card w-full bg-base-100 shadow-md">
@@ -70,16 +64,7 @@ const Card = ({ data }) => {
                     </h2>
                     <button
                         onClick={() => {
-                            router.post("/order/create", {
-                                product_id: data.id,
-                            });
-                            const existingData =
-                                JSON.parse(localStorage.getItem("order")) || [];
-                            existingData.push(data);
-                            localStorage.setItem(
-                                "order",
-                                JSON.stringify(existingData)
-                            );
+                            addOrder(data);
                         }}
                         className="btn btn-sm w-full btn-secondary"
                     >

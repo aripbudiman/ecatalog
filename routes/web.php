@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SalesController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -25,6 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('customer',CustomerController::class);
     Route::resource('category',CategoryController::class);
     Route::resource('menu',MenuController::class);
+    Route::resource('sales',SalesController::class);
+    Route::resource('/order',OrderController::class);
     Route::get('size',[MenuController::class,'size'])->name('menu.size');
     Route::post('size',[MenuController::class,'sizeStore'])->name('size.store');
     Route::post('order/create',[MenuController::class,'orderCreate'])->name('order.create');
