@@ -28,6 +28,8 @@ class SalesController extends Controller
         //
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      */
@@ -40,6 +42,7 @@ class SalesController extends Controller
             'trx_date'=>date('Y-m-d'),
             'user_id'=>auth()->user()->id,
             'invoice'=>'INV/'.date('Y').'/'.$invoiceNo,
+            'amount'=>$request->grossAmount,
         ]);
         foreach($orderSummary as $item){
             Order::create([
@@ -49,9 +52,46 @@ class SalesController extends Controller
             ]);
         }
 
-        return back()->with('response', Sales::with('order')->get());
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        \Midtrans\Config::$isProduction = false;
+        \Midtrans\Config::$isSanitized = true;
+        \Midtrans\Config::$is3ds = true;
+
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $sales->invoice,
+                'gross_amount' => $request->grossAmount,
+            )
+        );
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        // return Inertia::render("Menu/Index",[
+        //     'snapToken'=>$snapToken
+        // ]);
+        return back()->with('response', $snapToken);
     }
 
+    public function callback(Request $request){
+        $serverKey=config('midtrans.server_key');
+        $hashed=hash('SHA512', $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
+        if($hashed === $request->signature){
+            if($request->transaction_status == 'capture'){
+                if($request->status_code == '200'){
+                    $sales=Sales::where('invoice',$request->order_id)->get();
+                    $sales->status='paid';
+                    $sales->save();
+                }
+            }
+        }
+        $sales=Sales::where('invoice',$request->order_id)->get();
+        $sales[0]->status='paid';
+        $sales[0]->save();
+        return response()->json([
+            'status' => 'success',
+            'sales'=>$request->all(),
+            'hash'=>$sales
+        ]);
+    }
     /**
      * Display the specified resource.
      */
