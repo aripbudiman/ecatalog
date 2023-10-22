@@ -55,9 +55,31 @@ const Provider = ({ children }) => {
         setOrderDetail(data);
     };
 
+    var currentDate = new Date();
+
+    // Mendapatkan tanggal awal bulan
+    var firstDay = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        1
+    );
+
+    // Mendapatkan tanggal akhir bulan
+    var lastDay = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1,
+        0
+    );
+
+    // Mengonversi tanggal ke format yang lebih mudah dibaca
+    var options = { year: "numeric", month: "short", day: "numeric" };
+    var formattedFirstDay = firstDay.toLocaleDateString(undefined, options);
+    var formattedLastDay = lastDay.toLocaleDateString(undefined, options);
     return (
         <Context.Provider
             value={{
+                formattedFirstDay,
+                formattedLastDay,
                 OrderItems,
                 addOrder,
                 deleteOrder,

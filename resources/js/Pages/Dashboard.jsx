@@ -1,11 +1,14 @@
-import Sidebar from "../DaisyUi/Sidebar";
-import { Link } from "@inertiajs/react";
 import App from "@/Layouts/App";
+import Navbar from "@/DaisyUi/Navbar";
+import Stat from "@/DaisyUi/Stat";
+
 export default function Dashboard(props) {
-    console.log(props);
     return (
         <App title="Dashboard">
-            <h1>Hello World</h1>
+            <Navbar></Navbar>
+            <div className="p-5">
+                <Stat />
+            </div>
         </App>
     );
 }
