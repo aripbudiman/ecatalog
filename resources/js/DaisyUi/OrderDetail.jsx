@@ -1,15 +1,17 @@
 import React, { useContext, useState } from "react";
 import { Icon } from "@iconify/react";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { Context } from "@/Pages/MyContext";
 const OrderDetail = ({ data }) => {
-    const { setIsOpen, subtotal } = useContext(Context);
+    const { setIsOpen, subtotal, setSubtotal } = useContext(Context);
+    const [snap, setSnap] = useState(false);
     const newSubtotal = subtotal.reduce((total, item) => {
         const itemTotal = parseFloat(item.price) * item.qty;
         return total + itemTotal;
     }, 0);
+
     return (
-        <div className="px-7 pt-10">
+        <div className="px-7 pt-10 relative">
             <div>
                 {data.map((item, index) => (
                     <div
@@ -51,8 +53,58 @@ const OrderDetail = ({ data }) => {
                     Rp {newSubtotal.toLocaleString("id-ID")}
                 </p>
             </div>
+            {snap && (
+                <div
+                    id="snap-container"
+                    className="w-full absolute inset-0"
+                ></div>
+            )}
             <div className="my-5 flex flex-col gap-y-3">
-                <button className="btn btn-primary w-full">Pay Now</button>
+                <button
+                    onClick={() => {
+                        setSnap(true);
+                        router.post(
+                            "/sales",
+                            {
+                                subtotal: subtotal,
+                                grossAmount: newSubtotal,
+                            },
+                            {
+                                onSuccess: (props) => {
+                                    console.log(props.props.response.response);
+                                    window.snap.embed(
+                                        props.props.response.response,
+                                        {
+                                            embedId: "snap-container",
+                                            onSuccess: function (result) {
+                                                alert("payment success!");
+                                                console.log(result);
+                                                setSubtotal([]);
+                                                setSnap(false);
+                                            },
+                                            onPending: function (result) {
+                                                alert("wating your payment!");
+                                                console.log(result);
+                                            },
+                                            onError: function (result) {
+                                                alert("payment failed!");
+                                                console.log(result);
+                                            },
+                                            onClose: function () {
+                                                alert(
+                                                    "you closed the popup without finishing the payment"
+                                                );
+                                            },
+                                        }
+                                    );
+                                },
+                            }
+                        );
+                    }}
+                    className="btn btn-primary w-full"
+                >
+                    Checkout
+                </button>
                 <button
                     onClick={() => setIsOpen(false)}
                     className="btn btn-secondary w-full"
