@@ -16,6 +16,11 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard',[
             'totalOrder' => Sales::whereBetween('trx_date', [$firstDayOfMonth, $lastDayOfMonth])->count(),
             'totalOmset' => Sales::whereBetween('trx_date', [$firstDayOfMonth, $lastDayOfMonth])->where('status','paid')->sum('amount'),
+            'paymentMethod' => Sales::whereBetween('trx_date', [$firstDayOfMonth, $lastDayOfMonth])
+            ->whereIn('payment_method', ['cash', 'transfer'])
+            ->groupBy('payment_method')
+            ->selectRaw('payment_method, COUNT(*) as total')
+            ->get(),
         ]);
     }
 }
