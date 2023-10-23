@@ -78,14 +78,13 @@ class SalesController extends Controller
             if($request->transaction_status == 'capture'){
                 if($request->status_code == '200'){
                     $sales=Sales::where('invoice',$request->order_id)->get();
-                    $sales->status='paid';
-                    $sales->save();
+                    $sales[0]->status='paid';
+                    $sales[0]->payment_method='transfer';
+                    $sales[0]->save();
                 }
             }
         }
-        $sales=Sales::where('invoice',$request->order_id)->get();
-        $sales[0]->status='paid';
-        $sales[0]->save();
+        
         return response()->json([
             'status' => 'success',
             'sales'=>$request->all(),

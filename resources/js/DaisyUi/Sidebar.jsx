@@ -11,7 +11,7 @@ const Sidebar = () => {
                 </h1>
                 <li className="text-lg text-white mt-10">
                     <Link
-                        href="/dashboard"
+                        href="/"
                         className="hover:bg-sky-300/50 hover:text-sky-300"
                     >
                         <Icon icon="radix-icons:dashboard" />
