@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 const Context = createContext(null);
 
@@ -7,6 +7,8 @@ const Provider = ({ children }) => {
     const [subtotal, setSubtotal] = useState([]);
     const [orderDetail, setOrderDetail] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [dataModalOrder, setDataModalOrder] = useState([]);
+
     const addOrder = (newOrder) => {
         const updatedOrderItems = [...OrderItems];
         updatedOrderItems.push(newOrder);
@@ -21,6 +23,11 @@ const Provider = ({ children }) => {
             img: newOrder.image,
         });
         setSubtotal(updateSubtotal);
+    };
+
+    const deleteAllOrder = () => {
+        setOrderItems([]);
+        setSubtotal([]);
     };
 
     const plusQty = (index) => {
@@ -54,23 +61,17 @@ const Provider = ({ children }) => {
     const orderDetailStore = (data) => {
         setOrderDetail(data);
     };
-
     var currentDate = new Date();
-
-    // Mendapatkan tanggal awal bulan
     var firstDay = new Date(
         currentDate.getFullYear(),
         currentDate.getMonth(),
         1
     );
-
-    // Mendapatkan tanggal akhir bulan
     var lastDay = new Date(
         currentDate.getFullYear(),
         currentDate.getMonth() + 1,
         0
     );
-
     // Mengonversi tanggal ke format yang lebih mudah dibaca
     var options = { year: "numeric", month: "short", day: "numeric" };
     var formattedFirstDay = firstDay.toLocaleDateString(undefined, options);
@@ -92,6 +93,10 @@ const Provider = ({ children }) => {
                 orderDetailStore,
                 isOpen,
                 setIsOpen,
+                setOrderDetail,
+                dataModalOrder,
+                setDataModalOrder,
+                deleteAllOrder,
             }}
         >
             {children}

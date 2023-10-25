@@ -3,6 +3,7 @@ import { Head } from "@inertiajs/react";
 import Sidebar from "../DaisyUi/Sidebar";
 import Navbar from "@/DaisyUi/Navbar";
 import { Context, Provider } from "@/Pages/MyContext";
+import "../../css/main.css";
 const App = ({ children, title }) => {
     return (
         <Provider>

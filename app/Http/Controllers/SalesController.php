@@ -65,10 +65,20 @@ class SalesController extends Controller
         );
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
-        // return Inertia::render("Menu/Index",[
-        //     'snapToken'=>$snapToken
-        // ]);
-        return back()->with('response', $snapToken);
+        $sales=Sales::with('order','order.size','order.size.product')->find($sales->id);
+        return back()->with('response', [
+            'snapToken' => $snapToken,
+            'sales'=>$sales
+        ]);
+    }
+
+    public function cash(Request $request){
+        $id=$request->id;
+        $sales=Sales::find($id);
+        $sales->status='paid';
+        $sales->payment_method='cash';
+        $sales->save();
+        return back()->with('success','Berhasil melakukan pembayaran');
     }
 
     public function callback(Request $request){

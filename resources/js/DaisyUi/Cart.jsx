@@ -1,16 +1,25 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { router } from "@inertiajs/react";
 import { Context } from "@/Pages/MyContext";
-const Cart = () => {
-    const { OrderItems, subtotal, orderDetailStore, orderDetail, setIsOpen } =
-        useContext(Context);
-    const totalOrder = OrderItems.length;
-    const newSubtotal = subtotal.reduce((total, item) => {
-        const itemTotal = parseFloat(item.price) * item.qty;
-        return total + itemTotal;
-    }, 0);
+import ModalPayment from "../Pages/Menu/ModalPayment";
 
+const Cart = () => {
+    const { OrderItems, subtotal, setDataModalOrder } = useContext(Context);
+    const totalOrder = OrderItems.length;
+    const calculateSubtotal = () => {
+        return subtotal.reduce((total, item) => {
+            const itemTotal = parseFloat(item.price) * item.qty;
+            return total + itemTotal;
+        }, 0);
+    };
+    const [newSubtotal, setNewSubtotal] = useState(calculateSubtotal());
+    useEffect(() => {
+        setNewSubtotal(calculateSubtotal());
+    }, [totalOrder, subtotal]);
+    console.log({ "ini newSubtotal": newSubtotal });
+    console.log({ "ini orderItems": OrderItems });
+    console.log({ subtotal: subtotal });
     return (
         <div>
             <div className="mx-5 mt-10">
@@ -37,8 +46,22 @@ const Cart = () => {
             <div className="mx-5 my-10 flex gap-x-3">
                 <button
                     onClick={() => {
-                        orderDetailStore(subtotal);
-                        setIsOpen(true);
+                        router.post(
+                            "/sales",
+                            {
+                                subtotal: subtotal,
+                                grossAmount: newSubtotal,
+                            },
+                            {
+                                onSuccess: ({ props }) => {
+                                    const data = props.response.response;
+                                    setDataModalOrder(data);
+                                    document
+                                        .getElementById("modal-payment")
+                                        .showModal();
+                                },
+                            }
+                        );
                     }}
                     className="btn btn-primary w-1/2"
                 >
@@ -53,6 +76,7 @@ const Cart = () => {
                     Cancel
                 </button>
             </div>
+            <ModalPayment />
         </div>
     );
 };

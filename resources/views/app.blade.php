@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="{{config('midtrans.client_key')}}"></script>
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
@@ -21,7 +22,7 @@
 </head>
 
 <body class="font-sans antialiased ">
-
+    <div id="snap-container" className="w-full absolute inset-0 z-50"></div>
     @inertia
 </body>
 

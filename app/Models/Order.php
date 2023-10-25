@@ -15,4 +15,8 @@ class Order extends Model
     public function sales(){
         return $this->belongsTo(Sales::class);
     }
+
+    public function size(){
+        return $this->belongsTo(SizeProduct::class);
+    }
 }

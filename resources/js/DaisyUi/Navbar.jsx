@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Icon } from "@iconify/react";
 import { Link } from "@inertiajs/react";
 import "../../css/main.css";
 import { Context } from "@/Pages/MyContext";
 import Cart from "./Cart";
-import OrderDetail from "./OrderDetail";
 const Navbar = ({ children, ...props }) => {
     const [open, setOpen] = useState(false);
-    const { OrderItems, subtotal, isOpen, orderDetail } = useContext(Context);
+    const { OrderItems, subtotal } = useContext(Context);
     const totalOrder = OrderItems.length;
     return (
         <>
@@ -102,11 +101,7 @@ const Navbar = ({ children, ...props }) => {
                             <h1 className="font-semibold text-3xl text-right mr-10">
                                 Order Summary
                             </h1>
-                            {isOpen ? (
-                                <OrderDetail data={orderDetail} />
-                            ) : (
-                                <Cart />
-                            )}
+                            <Cart />
                         </div>
                     )}
                 </div>
