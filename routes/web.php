@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('menu',MenuController::class);
     Route::resource('sales',SalesController::class);
     Route::post('cash',[SalesController::class,'cash'])->name('sales.cash');
+    Route::get('transfer/{id}',[SalesController::class,'transfer'])->name('sales.transfer');
     Route::resource('/order',OrderController::class);
     Route::get('size',[MenuController::class,'size'])->name('menu.size');
     Route::post('size',[MenuController::class,'sizeStore'])->name('size.store');

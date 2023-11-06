@@ -1,17 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../MyContext";
 import "../../../css/main.css";
-import { router } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
+import Swal from "sweetalert2";
 const ModalPayment = () => {
-    const {
-        dataModalOrder,
-        setOrderItems,
-        setSubtotal,
-        setOrderDetail,
-        addOrder,
-        setDataModalOrder,
-        deleteAllOrder,
-    } = useContext(Context);
+    const { dataModalOrder, deleteAllOrder } = useContext(Context);
     const [active, setActive] = useState(false);
     const snapToken = dataModalOrder.snapToken;
     const data = dataModalOrder.sales;
@@ -31,32 +24,19 @@ const ModalPayment = () => {
                 onSuccess: () => {
                     deleteAllOrder();
                     setChange(0);
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Your work has been saved",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
                     document.getElementById("modal-payment").close();
                 },
             }
         );
     };
-    const midtrans = () => {
-        window.snap.embed(snapToken, {
-            embedId: "snap-container",
-            onSuccess: function (result) {
-                alert("payment success!");
-                console.log(result);
-                window.location.reload();
-            },
-            onPending: function (result) {
-                alert("wating your payment!");
-                console.log(result);
-            },
-            onError: function (result) {
-                alert("payment failed!");
-                console.log(result);
-            },
-            onClose: function () {
-                alert("you closed the popup without finishing the payment");
-            },
-        });
-    };
+
     return (
         <dialog id="modal-payment" className="modal relative">
             {data ? (
@@ -197,12 +177,12 @@ const ModalPayment = () => {
                                     />
                                 </div>
                                 <div>
-                                    <button
-                                        onClick={midtrans}
+                                    <Link
+                                        href={"/transfer/" + snapToken}
                                         className="btn btn-primary w-full"
                                     >
                                         Pay Now
-                                    </button>
+                                    </Link>
                                 </div>
                             </>
                         )}

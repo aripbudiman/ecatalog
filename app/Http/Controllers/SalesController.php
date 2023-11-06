@@ -59,7 +59,7 @@ class SalesController extends Controller
 
         $params = array(
             'transaction_details' => array(
-                'order_id' => $sales->invoice,
+                'order_id' => $sales->id,
                 'gross_amount' => $request->grossAmount,
             )
         );
@@ -79,6 +79,12 @@ class SalesController extends Controller
         $sales->payment_method='cash';
         $sales->save();
         return back()->with('success','Berhasil melakukan pembayaran');
+    }
+
+    public function transfer($id){
+        return Inertia::render('Menu/Midtrans', [
+            'snapToken' => $id,
+        ]);
     }
 
     public function callback(Request $request){

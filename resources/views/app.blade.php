@@ -22,7 +22,6 @@
 </head>
 
 <body class="font-sans antialiased ">
-    <div id="snap-container" className="w-full absolute inset-0 z-50"></div>
     @inertia
 </body>
 
